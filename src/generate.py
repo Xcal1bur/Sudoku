@@ -32,7 +32,7 @@ def possible(y: int, x: int, num: int, grid) -> bool:
 
     return True
 
-def check(grid: np.matrix) -> bool:
+def validate(grid: np.matrix) -> bool:
     """
     Checks whether a given Sudoku is valid.
     """
