@@ -36,8 +36,11 @@ sudoku3: list = [[0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 1, 2, 6, 9, 0, 7, 0, 4],
 [0, 6, 0, 0, 0, 0, 0, 8, 0]]
 
-if __name__ == "__main__":
+def main():
     # Examples:
     print(solve.backtrack_solve(np.matrix(sudoku3)))
     print(generate.generate_sudoku())
     print(generate.validate(solve.backtrack_solve(np.matrix(sudoku3))))
+
+if __name__ == "__main__":
+    main()
