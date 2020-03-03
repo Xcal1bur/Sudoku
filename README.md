@@ -1,7 +1,8 @@
-# Sudoku
+<h1 align="center">
+Sudoku
+</h1>
 
 # Table of Contents
-- [Sudoku](#sudoku)
 - [Table of Contents](#table-of-contents)
 - [Description](#description)
 - [Installation](#installation)
