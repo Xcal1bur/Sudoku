@@ -8,10 +8,10 @@ def possible(y: int, x: int, num: int, grid) -> bool:
     Checks whether a number is a possible anwser for a field by checking 
     whether the number as no duplicates
         - in the row
-        - in the collumn
+        - in the column
         - in the 3x3 grid the field belongs to.
     """
-    # Check row and collumn:
+    # Check row and column:
     for i in range(0, 9):
         if (grid[y, i] == num) and (i != x):
             return False
@@ -43,9 +43,8 @@ def validate(grid: np.matrix) -> bool:
                     return False
     return True
 
-def generate_sudoku(
-    grid: np.matrix = np.matrix(
-    [[0, 0, 0, 0, 0, 0, 0, 0, 0],
+def generate_sudoku(grid: np.matrix = np.matrix([
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -61,18 +60,19 @@ def generate_sudoku(
     for y in range(0, 9):
         for x in range(0, 9):
             l = list(range(1, 10))
-            if grid[y, x] == 0:
+            if grid[y, x] == 0: # Current field has to be 0
                 while len(l) > 0:
                     r = random.choice(l)
-                    #print(grid)
                     if possible(y, x, r, grid):
                         grid[y, x] = r
                         ret = generate_sudoku(grid)
-
+                        # Backtrack when return is None otherwise pass on the
+                        # return value to caller.
                         if type(ret) != np.matrix:
                             grid[y, x] = 0
                         else:
                             return ret
                     l.remove(r)
                 return
+    # If all field are != 0 return the finished grid
     return grid
