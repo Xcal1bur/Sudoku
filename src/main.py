@@ -2,8 +2,8 @@
 """Solves a given Sudoku puzzle by using a backtracking recursive approach."""
 
 import numpy as np
-import solve
-import generate
+from src import solve
+from src import generate
 
 # 32 given fields
 sudoku1: list = [[0, 9, 2, 0, 0, 0, 8, 7, 0],

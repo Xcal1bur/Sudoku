@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Contains functions for solving Sudokus."""
 import numpy as np
-import generate
+from src import generate
 
 def backtrack_solve(grid: np.matrix) -> np.matrix:
     """
