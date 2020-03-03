@@ -40,4 +40,4 @@ if __name__ == "__main__":
     # Examples:
     print(solve.backtrack_solve(np.matrix(sudoku3)))
     print(generate.generate_sudoku())
-    print(generate.check(solve.backtrack_solve(np.matrix(sudoku3))))
+    print(generate.validate(solve.backtrack_solve(np.matrix(sudoku3))))
