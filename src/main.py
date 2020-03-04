@@ -38,9 +38,11 @@ sudoku3: list = [[0, 0, 0, 0, 0, 0, 0, 0, 0],
 
 def main():
     # Examples:
-    print(solve.backtrack_solve(np.matrix(sudoku3)))
+    res: list = solve.backtrack_solve(np.matrix(sudoku3))
+    for i in range(len(res)):
+        print(f"Solution {i}:\n {res[i]} \n\t Valid: {generate.validate(res[i])}")
+    print("Solutions:", len(res))
     print(generate.generate_sudoku())
-    print(generate.validate(solve.backtrack_solve(np.matrix(sudoku3))))
 
 if __name__ == "__main__":
     main()
