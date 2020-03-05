@@ -6,6 +6,18 @@ from src import generate
 def backtrack_solve(grid: np.matrix, solutions: list = []) -> np.matrix:
     """
     Solves a given sudoku grid by brute forcing and backtracking.
+
+    Parameters
+    ----------
+    grid: np.matrix
+        Sudoku to solve
+    solutions: list
+        All solutions to the given Sudoku.
+    
+    Returns
+    -------
+    solutions: list
+        All solutions to the given Sudoku.
     """
     for y in range(0, 9):
         for x in range(0, 9):
@@ -18,3 +30,4 @@ def backtrack_solve(grid: np.matrix, solutions: list = []) -> np.matrix:
                 return solutions
     solutions.append(grid.copy())
     return solutions
+    

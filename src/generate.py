@@ -2,14 +2,31 @@
 """Contains function for generating and validating Sudokus."""
 import random
 import numpy as np
+from src import solve
 
-def possible(y: int, x: int, num: int, grid) -> bool:
+def possible(y: int, x: int, num: int, grid: np.matrix) -> bool:
     """
     Checks whether a number is a possible anwser for a field by checking 
-    whether the number as no duplicates
-        - in the row
-        - in the column
-        - in the 3x3 grid the field belongs to.
+    whether the number has no duplicates
+        - in its the row
+        - in its the column
+        - in its 3x3 subgrid
+        
+    Parameters
+    ----------
+    y: int
+        Representing the row. 0 <= y <= 8.
+    x: int
+        Representing the column. 0 <= x <= 8.
+    num: int
+        Representing the number to check. 1 <= num <= 9
+    grid: numpy.matrix
+        Representing the Sudoku grid.
+
+    Returns
+    -------
+    bool
+        True if num is valid, False if not.    
     """
     # Check row and column:
     for i in range(0, 9):
@@ -35,6 +52,16 @@ def possible(y: int, x: int, num: int, grid) -> bool:
 def validate(grid: np.matrix) -> bool:
     """
     Checks whether a given Sudoku is valid.
+
+    Parameters
+    ----------
+    grid: numpy.matrix
+        Sudoku grid to validate
+
+    Returns
+    -------
+    bool
+        True if the given Sudoku is valid, false if not.
     """
     for y in range(0, 9):
         for x in range(0, 9):
@@ -42,6 +69,41 @@ def validate(grid: np.matrix) -> bool:
                 if possible(y, x, grid[y, x], grid) == False:
                     return False
     return True
+
+def generate(grid: np.matrix, n: int, empty: list = []) -> np.matrix:
+    """
+    Clears randomly chosen fields to create a solvable Sudoku with one solution.
+
+    Parameters
+    ----------
+    grid: numpy.matrix
+        A fully solved, valid Sudoku.
+    n: int
+        The number of fields to be cleared.
+    
+    Returns
+    -------
+    np.matrix
+        A matrix representing a Sudoku with 0 as empty fields and numbers
+        from 1 to 9. 
+    """
+    while True:
+        yr = random.randint(0, 8)
+        xr = random.randint(0, 8)
+    
+        if n >= 1:
+            if len(solve.backtrack_solve(grid.copy(), [])) == 1:
+                temp = grid[yr, xr]
+                grid[yr, xr] = 0    
+                ret = generate(grid, n - 1)
+                if type(ret) == np.matrix:
+                    return ret
+                else:
+                    grid[yr, xr] = temp
+                    continue
+            return
+        else:
+            return grid.copy()
 
 def generate_sudoku(grid: np.matrix = np.matrix([
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -55,7 +117,17 @@ def generate_sudoku(grid: np.matrix = np.matrix([
     [0, 0, 0, 0, 0, 0, 0, 0, 0],])
     ):
     """
-    Generates a Sudoku with a given amount of fields. random.randint(1,9)
+    Generates a complete, valid Sudoku.
+
+    Parameters
+    ----------
+    grid: numpy.matrix
+        Acts as accumulator as this a recursive function.
+    
+    Returns
+    -------
+    numpy.matrix
+        A fully solved Sudoku.
     """     
     for y in range(0, 9):
         for x in range(0, 9):
