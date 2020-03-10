@@ -76,13 +76,13 @@ def main():
     #for i in range(len(res)):
     #    print(f"Solution {i}:\n {res[i]} \n\t Valid: {generate.validate(res[i])}")
     #print("Solutions:", len(res))
-    full = generate.generate_sudoku()
+    full = generate.generate_full_sudoku()
     print(full)
     print(grid_to_string(full))
-    gen = generate.generate(full, 70)
+    gen = generate.generate_sudoku(full, 52)
     print(grid_to_string(gen))
     print("Solutions:", len(solve.backtrack_solve(gen, [])))
-    #print(grid_to_string(solve.backtrack_solve(gen)[0]))
+    print(grid_to_string(solve.backtrack_solve(gen)[0]))
 
 if __name__ == "__main__":
     main()

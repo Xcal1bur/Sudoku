@@ -70,7 +70,7 @@ def validate(grid: np.matrix) -> bool:
                     return False
     return True
 
-def generate(grid: np.matrix, n: int, empty: list = []) -> np.matrix:
+def generate_sudoku(grid: np.matrix, n: int) -> np.matrix:
     """
     Clears randomly chosen fields to create a solvable Sudoku with one solution.
 
@@ -83,29 +83,63 @@ def generate(grid: np.matrix, n: int, empty: list = []) -> np.matrix:
     
     Returns
     -------
-    np.matrix
+    numpy.matrix
         A matrix representing a Sudoku with 0 as empty fields and numbers
         from 1 to 9. 
     """
+    non_empty: list = filled_fields(grid.copy())
     while True:
-        yr = random.randint(0, 8)
-        xr = random.randint(0, 8)
-    
-        if n >= 1:
-            if len(solve.backtrack_solve(grid.copy(), [])) == 1:
+        print(n, len(non_empty))
+        # Sudoku has to have a unique solution and there have to be
+        # filled fields avialable otherwise backtrack.
+        if len(solve.backtrack_solve(grid.copy(), [])) == 1 and len(non_empty) != 0:
+            # Select random field from available filled fields.
+            pos = random.choice(non_empty)
+            yr = pos[0]
+            xr = pos[1]
+            if n >= 1:
+                # Replace selected field with a zero and 
+                # temporaly store field value in case of backtrack
                 temp = grid[yr, xr]
-                grid[yr, xr] = 0    
-                ret = generate(grid, n - 1)
+                grid[yr, xr] = 0
+                # Remove selected field from list so it wont be selected again.
+                non_empty.remove(pos)
+                ret = generate_sudoku(grid.copy(), n - 1)
+                # Differentiate between backtrack and solution.
                 if type(ret) == np.matrix:
                     return ret
                 else:
                     grid[yr, xr] = temp
                     continue
-            return
+            # The Sudoku only has one solution and n fields have been set to zero
+            else:
+                return grid.copy()
         else:
-            return grid.copy()
+            return
 
-def generate_sudoku(grid: np.matrix = np.matrix([
+def filled_fields(grid: np.matrix) -> list:
+    """
+    Determines all fields in a grid that are not zero / not empty.
+
+    Parameters
+    ----------
+    grid: numpy.matrix
+        Grid representing a Sudoku.
+    
+    Returns
+    -------
+    list
+        A list containing all positions of non-empty fields. For example 
+        [[0, 0], [5, 2], [1, 6]].
+    """
+    filled: list = []
+    for y in range(0, 9):
+        for x in range(0, 9):
+            if grid[y, x] != 0:
+                filled.append([y, x])
+    return filled
+
+def generate_full_sudoku(grid: np.matrix = np.matrix([
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -137,7 +171,7 @@ def generate_sudoku(grid: np.matrix = np.matrix([
                     r = random.choice(l)
                     if possible(y, x, r, grid):
                         grid[y, x] = r
-                        ret = generate_sudoku(grid)
+                        ret = generate_full_sudoku(grid)
                         # Backtrack when return is None otherwise pass on the
                         # return value to caller.
                         if type(ret) != np.matrix:
