@@ -2,7 +2,6 @@
 """
 Solves a given Sudoku puzzle by using a backtracking recursive approach.
 """
-
 import numpy as np
 from src import solve
 from src import generate
@@ -91,8 +90,6 @@ def grid_to_string(grid: np.matrix) -> str:
     return grid_str
 
 def main():
-    print(solve.quick_solve(sudoku3)[0])
-    
     full = generate.generate_full_sudoku()
     print(full)
     print(grid_to_string(full))

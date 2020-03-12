@@ -140,7 +140,7 @@ def find_candidate(grid: np.matrix) -> tuple:
                     min_sol = sol
     return min_pos, min_sol
 
-def quick_solve(grid: np.matrix, solutions: list = []):
+def quick_solve(grid: np.matrix, solutions: list = [], all: bool = True):
     """
     Solves a given Sudoku represented by a numpy matrix.
 
@@ -151,6 +151,9 @@ def quick_solve(grid: np.matrix, solutions: list = []):
     solutions: list
         Containing all found solutions for a Sudoku. Acts as accumulator
         throughout the recursion. Initialize as empty list.
+    all: bool
+        Compute all possible solutions (True) or only compute one solution
+        (False) which is possible much faster.
     
     Returns
     -------
@@ -167,11 +170,13 @@ def quick_solve(grid: np.matrix, solutions: list = []):
         x0 = pos[1]
         # Iterate through all solutions for a field. Backtrack if no valid was found.
         for num in sol:
-            if possible(y0, x0, num, grid.copy()):
-                grid[y0, x0] = num
-                solutions = quick_solve(grid.copy(), solutions)
-                # In case of backtrack reset field value to zero/empty.
-                grid[y0, x0] = 0
+            grid[y0, x0] = num
+            solutions = quick_solve(grid.copy(), solutions)
+            # If all parameter is set to False only return one solution.
+            if solutions != [] and all == False:
+                return solutions
+            # In case of backtrack reset field value to zero/empty.
+            grid[y0, x0] = 0
         return solutions
     else:
         solutions.append(grid.copy())
