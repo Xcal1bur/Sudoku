@@ -1,74 +1,10 @@
 #!/usr/bin/env python3
-"""Contains function for generating and validating Sudokus."""
+"""
+Contains functions concerned with generating Sudokus.
+"""
 import random
 import numpy as np
 from src import solve
-
-def possible(y: int, x: int, num: int, grid: np.matrix) -> bool:
-    """
-    Checks whether a number is a possible anwser for a field by checking 
-    whether the number has no duplicates
-        - in its the row
-        - in its the column
-        - in its 3x3 subgrid
-        
-    Parameters
-    ----------
-    y: int
-        Representing the row. 0 <= y <= 8.
-    x: int
-        Representing the column. 0 <= x <= 8.
-    num: int
-        Representing the number to check. 1 <= num <= 9
-    grid: numpy.matrix
-        Representing the Sudoku grid.
-
-    Returns
-    -------
-    bool
-        True if num is valid, False if not.    
-    """
-    # Check row and column:
-    for i in range(0, 9):
-        if (grid[y, i] == num) and (i != x):
-            return False
-        elif (grid[i, x] == num) and (i != y):
-            return False
-
-    # Determine 3x3 subgrid the field is in.
-    x0: int = (x // 3) * 3
-    y0: int = (y // 3) * 3
-
-    # Check subgrid
-    for i in range(0,3):
-        for k in range(0, 3):
-            if (grid[y0+i, x0+k] == num) and (y0+i != y) and (x0+k != x):
-                return False
-            elif (grid[y0+k, x0+i] == num) and (y0+k != y) and (x0+i != x):
-                return False
-
-    return True
-
-def validate(grid: np.matrix) -> bool:
-    """
-    Checks whether a given Sudoku is valid.
-
-    Parameters
-    ----------
-    grid: numpy.matrix
-        Sudoku grid to validate
-
-    Returns
-    -------
-    bool
-        True if the given Sudoku is valid, false if not.
-    """
-    for y in range(0, 9):
-        for x in range(0, 9):
-            if grid[y, x] != 0:
-                if possible(y, x, grid[y, x], grid) == False:
-                    return False
-    return True
 
 def generate_sudoku(grid: np.matrix, n: int) -> np.matrix:
     """
@@ -92,7 +28,7 @@ def generate_sudoku(grid: np.matrix, n: int) -> np.matrix:
         print(n, len(non_empty))
         # Sudoku has to have a unique solution and there have to be
         # filled fields avialable otherwise backtrack.
-        if len(solve.backtrack_solve(grid.copy(), [])) == 1 and len(non_empty) != 0:
+        if len(solve.quick_solve(grid.copy(), [])) == 1 and len(non_empty) != 0:
             # Select random field from available filled fields.
             pos = random.choice(non_empty)
             yr = pos[0]
@@ -139,6 +75,26 @@ def filled_fields(grid: np.matrix) -> list:
                 filled.append([y, x])
     return filled
 
+def isFull(grid: np.matrix) -> bool:
+    """
+    Returns true if there are no more empty fields in a Sudoku.
+
+    Parameters
+    ----------
+    grid: numpy.matrix
+        Representing a 9x9 Sudoku grid
+    
+    Returns
+    -------
+    bool
+        True if fully filled, False if not.
+    """
+    for y in range(0, 9):
+        for x in range(0, 9):
+            if grid[y, x] == 0:
+                return False
+    return True
+
 def generate_full_sudoku(grid: np.matrix = np.matrix([
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -169,7 +125,7 @@ def generate_full_sudoku(grid: np.matrix = np.matrix([
             if grid[y, x] == 0: # Current field has to be 0
                 while len(l) > 0:
                     r = random.choice(l)
-                    if possible(y, x, r, grid):
+                    if solve.possible(y, x, r, grid):
                         grid[y, x] = r
                         ret = generate_full_sudoku(grid)
                         # Backtrack when return is None otherwise pass on the
