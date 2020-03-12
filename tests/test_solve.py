@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 from src import solve
 from src import generate
 
@@ -35,7 +36,29 @@ def test_possible():
 def test_validate():
     assert type(solve.validate(grid1)) == bool
     assert solve.validate(grid1) == True
-    assert solve.validate(solve.solve(grid1, [])) == True
+    assert solve.validate(solve.solve(grid1, [])[0]) == True
 
 def test_solve():
-    assert type(solve.solve(grid1, [])) == list
+    sol: list = solve.solve(grid1, [])
+    assert type(sol) == list
+    # Test all solutions
+    for s in sol:
+        if solve.validate(s) == False:
+            pytest.fail("test_solve: Not all tested solutions were valid.")
+
+def test_find_candidate():
+    c = solve.find_candidate(grid1)
+    assert type(c) == tuple
+    assert c == ([5, 0], [5])
+    # There must not be any candidate for a fully filled Sudoku
+    assert solve.find_candidate(generate.generate_full_sudoku()) == ([], [])
+
+def test_quick_solve():
+    sol: list = solve.quick_solve(grid1, [])
+    assert type(sol) == list
+    # Test all solutions
+    for s in sol:
+        if solve.validate(s) == False:
+            pytest.fail("test_quick_solve: Not all tested solutions were valid.")
+    # Test if both solving algorithms return the same solution
+    assert sol[0].tolist() == solve.solve(grid1, [])[0].tolist()

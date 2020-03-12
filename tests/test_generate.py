@@ -15,13 +15,30 @@ grid1: np.matrix = np.matrix([
     [0, 5, 4, 0, 0, 0, 2, 3, 0]
     ])
 
-def test_generate_sudoku():
-    assert type(generate.generate_full_sudoku()) == np.matrix
-    assert solve.validate(generate.generate_full_sudoku()) == True
+def test_generate_full_sudoku():
+    gen: np.matrix = generate.generate_full_sudoku()
+    assert type(gen) == np.matrix
+    assert solve.validate(gen) == True
     # Check if no zero occur / the sudoku has been filled completly.
-    grid = generate.generate_full_sudoku().tolist()
+    grid = gen.tolist()
     zero = False
     for i in range(len(grid)):
         if 0 in grid[i]:
             zero = True
     assert zero == False
+
+    # function can also be used for solving however it's slower
+    assert generate.generate_full_sudoku(grid1).tolist() == solve.quick_solve(grid1)[0].tolist()
+
+def test_generate_sudoku():
+    gen: np.matrix = generate.generate_sudoku(generate.generate_full_sudoku(), 48)
+    assert type(gen) == np.matrix
+    assert solve.validate(gen) == True
+    assert generate.isFull(gen) == False
+    assert len(generate.filled_fields(gen)) == 81 - 48
+
+def test_filled_fields():
+    pass
+
+def test_isFull():
+    pass
