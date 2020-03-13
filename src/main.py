@@ -74,7 +74,7 @@ def grid_to_string(grid: list) -> str:
 
     Parameters
     ----------
-    grid: np.matrix
+    grid: list
         Sudoku grid to transform
         
     Returns
@@ -102,12 +102,38 @@ def grid_to_string(grid: list) -> str:
                 grid_str += "\n"               
     return grid_str
 
+def string_to_grid(s: str) -> list:
+    """
+    Converts an string to a list representing a Sudoku.
+
+    Parameters
+    ----------
+    s: str
+        String representing a 9x9 Sudoku for transformation to list.
+        Empty fields are either "0" or ".".
+
+    Returns
+    -------
+    list
+        Representing a 9x9 Sudoku.
+    """        
+    sudoku: list = []
+    row: list = []
+    for i, char in enumerate(s):
+        if char == ".":
+            char = "0"
+        if char == ";":
+            sudoku.append(row)
+            row = []
+            continue 
+        row.append(int(char))
+    return sudoku
+
 def main():
-    print(len(solve.quick_solve(sudoku3, [])))
     full = generate.generate_full_sudoku()
     print(full)
     print(grid_to_string(full))
-    gen = generate.generate_sudoku(full, 57)
+    gen = generate.generate_sudoku(full, 56)
     print(grid_to_string(gen))
 
 if __name__ == "__main__":
