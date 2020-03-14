@@ -33,11 +33,11 @@ def test_generate_sudoku():
     gen: list = generate.generate_sudoku(generate.generate_full_sudoku(), 48)
     assert type(gen) == list
     assert solve.validate(gen) == True
-    assert generate.isFull(gen) == False
+    assert generate.finished(gen) == False
     assert len(generate.filled_fields(gen)) == 81 - 48
 
 def test_filled_fields():
     pass
 
-def test_isFull():
+def test_finished():
     pass

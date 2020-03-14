@@ -67,10 +67,22 @@ sudoku4: list = [
     [0, 0, 0, 0, 3, 0, 5, 0, 0],
     [0, 0, 0, 0, 9, 7, 0, 0, 0]
 ]
+hardest: list = [
+    [8, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 3, 6, 0, 0, 0, 0, 0], 
+    [0, 7, 0, 0, 9, 0, 2, 0, 0], 
+    [0, 5, 0, 0, 0, 7, 0, 0, 0], 
+    [0, 0, 0, 0, 4, 5, 7, 0, 0], 
+    [0, 0, 0, 1, 0, 0, 0, 3, 0], 
+    [0, 0, 1, 0, 0, 0, 0, 6, 8], 
+    [0, 0, 8, 5, 0, 0, 0, 1, 0], 
+    [0, 9, 0, 0, 0, 0, 4, 0, 0]
+]
 
-def grid_to_string(grid: list) -> str:
+def print_grid(grid: list) -> str:
     """
-    Transforms a numpy matrix to a string for better readability when printing.
+    Transforms a list representing a Sudoku grid to a printable and readable
+    string for printing.
 
     Parameters
     ----------
@@ -116,7 +128,9 @@ def string_to_grid(s: str) -> list:
     -------
     list
         Representing a 9x9 Sudoku.
-    """        
+    """
+    if len(s) != 81 + 9:
+        raise AttributeError
     sudoku: list = []
     row: list = []
     for i, char in enumerate(s):
@@ -130,11 +144,18 @@ def string_to_grid(s: str) -> list:
     return sudoku
 
 def main():
+    import time
+    start = time.time()
+    print(solve.quick_solve(sudoku2, [], False))
+    end = time.time()
+    print(end - start, "sec")
+    
     full = generate.generate_full_sudoku()
     print(full)
-    print(grid_to_string(full))
+    print(print_grid(full))
     gen = generate.generate_sudoku(full, 56)
-    print(grid_to_string(gen))
+    print(print_grid(gen))
+    print(print_grid(solve.quick_solve(gen, [])[0]))
 
 if __name__ == "__main__":
     main()

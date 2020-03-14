@@ -75,7 +75,7 @@ def filled_fields(grid: list) -> list:
                 filled.append([y, x])
     return filled
 
-def isFull(grid: list) -> bool:
+def finished(grid: list) -> bool:
     """
     Returns true if there are no more empty fields in a Sudoku.
 

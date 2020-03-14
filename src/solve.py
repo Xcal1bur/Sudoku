@@ -3,6 +3,7 @@
 Contains functions concerned with solving and validating Sudokus.
 """
 import numpy as np
+import random
 from src import generate
 from src import main
 
@@ -162,11 +163,9 @@ def quick_solve(grid: list, solutions: list = [], find_all: bool = True):
         Containing all found solutions for a Sudoku.
     """
     # Fill all fields otherwise append found solution to list.
-    if not generate.isFull(grid.copy()):
+    if not generate.finished(grid):
         # Get candidate position and possible solutions
-        pos, sol = find_candidate(grid.copy())
-        #print(main.grid_to_string(grid), pos, sol)
-        #input()
+        pos, sol = find_candidate(grid)
         y0 = pos[0]
         x0 = pos[1]
         # Iterate through all solutions for a field. Backtrack if no valid was found.
