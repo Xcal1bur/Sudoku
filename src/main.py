@@ -2,8 +2,9 @@
 """
 Solves a given Sudoku puzzle by using a backtracking recursive approach.
 """
+import time
 from src.sudoku import Sudoku
-from src import counter
+
 
 # 32 given fields
 sudoku1: Sudoku = Sudoku([
@@ -68,18 +69,18 @@ sudoku4: Sudoku = Sudoku([
 ])
 hardest: Sudoku = Sudoku([
     [8, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 3, 6, 0, 0, 0, 0, 0], 
-    [0, 7, 0, 0, 9, 0, 2, 0, 0], 
-    [0, 5, 0, 0, 0, 7, 0, 0, 0], 
-    [0, 0, 0, 0, 4, 5, 7, 0, 0], 
-    [0, 0, 0, 1, 0, 0, 0, 3, 0], 
-    [0, 0, 1, 0, 0, 0, 0, 6, 8], 
-    [0, 0, 8, 5, 0, 0, 0, 1, 0], 
+    [0, 0, 3, 6, 0, 0, 0, 0, 0],
+    [0, 7, 0, 0, 9, 0, 2, 0, 0],
+    [0, 5, 0, 0, 0, 7, 0, 0, 0],
+    [0, 0, 0, 0, 4, 5, 7, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 3, 0],
+    [0, 0, 1, 0, 0, 0, 0, 6, 8],
+    [0, 0, 8, 5, 0, 0, 0, 1, 0],
     [0, 9, 0, 0, 0, 0, 4, 0, 0]
 ])
 
+
 def main():
-    import time
     start = time.time()
     print(sudoku2.print_grid())
     sudoku2.quick_solve(False)
@@ -88,20 +89,21 @@ def main():
     print(sudoku2.print_grid())
     print(end - start, "sec")
 
-    print("="* 30)
+    print("=" * 30)
     s2 = Sudoku()
     s2.generate_full_sudoku()
     s2.generate_sudoku(49)
     print(s2.print_solution())
-    
-    print("="* 30)
+
+    print("=" * 30)
     s1 = Sudoku(".3.......;...195...;..8....6.;8...6....;4..8....1;....2....;.6....28.;...419..5;.......7.;")
     print(s1.print_grid())
 
-    print("="* 30)
-    print(sudoku1.print_grid()) 
+    print("=" * 30)
+    print(sudoku1.print_grid())
     sudoku1.solve()
     print(sudoku1.print_solution())
+
 
 if __name__ == "__main__":
     main()

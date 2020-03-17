@@ -1,5 +1,6 @@
 import random
 
+
 class Sudoku():
     """
     Class representing a Sudoku grid including methods for solving and generating.
@@ -13,12 +14,12 @@ class Sudoku():
         else:
             self.grid = self.string_to_grid(p_grid)
         self.solved_grid = self.empty_grid
-    
+
     def __printable(self, grid: list) -> str:
         """
         Transforms a list representing a Sudoku grid to a printable and readable
         string for printing.
-            
+
         Returns
         -------
         str
@@ -33,7 +34,7 @@ class Sudoku():
             # Columns
             for x in range(0, 9):
                 # Zero represents an empty field
-                if grid[y][x] == 0: 
+                if grid[y][x] == 0:
                     grid_str += " " * 3
                 else:
                     grid_str += " " + str(grid[y][x]) + " "
@@ -41,7 +42,7 @@ class Sudoku():
                 if x in [2, 5]:
                     grid_str += "|"
                 elif x == 8:
-                    grid_str += "\n"               
+                    grid_str += "\n"
         return grid_str
 
     def print_grid(self) -> str:
@@ -75,18 +76,18 @@ class Sudoku():
             if char == ";":
                 sudoku.append(row)
                 row = []
-                continue 
+                continue
             row.append(int(char))
         return sudoku
 
     def possible(self, y, x, num, grid) -> bool:
         """
-        Checks whether a number is a possible anwser for a field by checking 
+        Checks whether a number is a possible anwser for a field by checking
         whether the number has no duplicates
             - in its the row
             - in its the column
             - in its 3x3 subgrid
-            
+
         Parameters
         ----------
         y: int
@@ -99,7 +100,7 @@ class Sudoku():
         Returns
         -------
         bool
-            True if num is valid, False if not.    
+            True if num is valid, False if not.
         """
         # Check row and column:
         for i in range(0, 9):
@@ -113,7 +114,7 @@ class Sudoku():
         y0: int = (y // 3) * 3
 
         # Check subgrid
-        for i in range(0,3):
+        for i in range(0, 3):
             for k in range(0, 3):
                 if (grid[y0+i][x0+k] == num) and (y0+i != y) and (x0+k != x):
                     return False
@@ -122,7 +123,7 @@ class Sudoku():
 
         # If no violations have been found return true
         return True
-    
+
     def validate(self) -> bool:
         """
         Validates the Sudoku grid.
@@ -154,7 +155,7 @@ class Sudoku():
             ----------
             solutions: list
                 All solutions to the given Sudoku.
-            
+
             Returns
             -------
             solutions: list
@@ -183,7 +184,7 @@ class Sudoku():
     def quick_solve(self, all_solutions: bool = True):
         """
         Solves the Sudoku by backtracking and brute force while being a
-        optimized version of the normal solve function hence having a 
+        optimized version of the normal solve function hence having a
         drastically improved runtime for more difficult Sudokus.
 
         Parameters
@@ -194,7 +195,7 @@ class Sudoku():
         """
         def find_candidate(grid) -> tuple:
             """
-            Determines the next candidate being the field with 
+            Determines the next candidate being the field with
             the lowest amount of possible solutions.
 
             Returns
@@ -218,7 +219,7 @@ class Sudoku():
                         for num in range(1, 10):
                             if self.possible(y, x, num, grid):
                                 count += 1
-                                sol.append(num) 
+                                sol.append(num)
                         # Save field positions with the lowest amount of possible solutions
                         # as well as the possible solutions.
                         if count < min:
@@ -235,7 +236,7 @@ class Sudoku():
             ----------
             grid: list
                 Representing a 9x9 Sudoku grid
-            
+
             Returns
             -------
             bool
@@ -247,7 +248,7 @@ class Sudoku():
                         return False
             return True
 
-        def compute_solution(grid: list, solutions: list = [], find_all = True) -> list:
+        def compute_solution(grid: list, solutions: list = [], find_all=True) -> list:
             """
             Solves a given Sudoku represented by a numpy matrix.
 
@@ -259,7 +260,7 @@ class Sudoku():
             find_all: bool
                 Compute all possible solutions (True) or only compute one solution
                 (False) which is possible much faster.
-            
+
             Returns
             -------
             list
@@ -276,7 +277,7 @@ class Sudoku():
                     grid[y0][x0] = num
                     solutions = compute_solution(grid, solutions, find_all)
                     # If all parameter is set to False only return one solution.
-                    if solutions != [] and find_all == False:
+                    if solutions != [] and find_all is False:
                         return solutions
                     # In case of backtrack reset field value to zero/empty.
                     grid[y0][x0] = 0
@@ -294,7 +295,7 @@ class Sudoku():
         def full_sudoku(grid: list):
             """
             Generates a complete, valid Sudoku.
-            """    
+            """
             for y in range(0, 9):
                 for x in range(0, 9):
                     numbers = list(range(1, 10))
@@ -306,7 +307,8 @@ class Sudoku():
                                 ret = full_sudoku(grid)
                                 if ret:
                                     return ret
-                                else: grid[y][x] = 0
+                                else:
+                                    grid[y][x] = 0
                             numbers.remove(num)
                         return
             return grid
@@ -330,7 +332,7 @@ class Sudoku():
             Returns
             -------
             list
-                A list containing all positions of non-empty fields. For example 
+                A list containing all positions of non-empty fields. For example
                 [[0, 0], [5, 2], [1, 6]].
             """
             filled: list = []
@@ -352,7 +354,7 @@ class Sudoku():
                     yr = pos[0]
                     xr = pos[1]
                     if n >= 1:
-                        # Replace selected field with a zero and 
+                        # Replace selected field with a zero and
                         # temporaly store field value in case of backtrack
                         temp = self.grid[yr][xr]
                         self.grid[yr][xr] = 0
@@ -372,4 +374,3 @@ class Sudoku():
                     return
         # Set generated Sudoku grid as new grid.
         self.grid = generate(empty_cells)
-            
