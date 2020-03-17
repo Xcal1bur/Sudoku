@@ -137,12 +137,13 @@ class Sudoku():
         for y in range(0, 9):
             # Columns
             for x in range(0, 9):
-                # Don't check empty fields for obvious reasons.
+                # Don't check empty fields.
                 if self.grid[y][x] != 0:
-                    return self.possible(y, x, self.grid[y][x], self.grid)
+                    if self.possible(y, x, self.grid[y][x], self.grid) is False:
+                        return False
         return True
 
-    def solve(self):
+    def solve(self, all_solutions: bool=True):
         """
         Solves the sudoku grid by brute forcing and backtracking.
         """
@@ -171,6 +172,8 @@ class Sudoku():
                             if self.possible(y, x, num, grid):
                                 grid[y][x] = num
                                 solutions = compute_solution(grid, solutions)
+                                if solutions and all_solutions is False:
+                                    return solutions
                                 # Reset cell to zero after backtrack
                                 grid[y][x] = 0
                         # Backtrack after no possible number was found.
@@ -222,7 +225,7 @@ class Sudoku():
                                 sol.append(num)
                         # Save field positions with the lowest amount of possible solutions
                         # as well as the possible solutions.
-                        if count < min:
+                        if count <= min:
                             min = count
                             min_pos = [y, x]
                             min_sol = sol
@@ -248,7 +251,7 @@ class Sudoku():
                         return False
             return True
 
-        def compute_solution(grid: list, solutions: list = [], find_all=True) -> list:
+        def compute_solution(grid: list, solutions: list = []) -> list:
             """
             Solves a given Sudoku represented by a numpy matrix.
 
@@ -275,9 +278,9 @@ class Sudoku():
                 # Iterate through all solutions for a field. Backtrack if no valid was found.
                 for num in sol:
                     grid[y0][x0] = num
-                    solutions = compute_solution(grid, solutions, find_all)
+                    solutions = compute_solution(grid, solutions)
                     # If all parameter is set to False only return one solution.
-                    if solutions != [] and find_all is False:
+                    if solutions != [] and all_solutions is False:
                         return solutions
                     # In case of backtrack reset field value to zero/empty.
                     grid[y0][x0] = 0
@@ -286,7 +289,7 @@ class Sudoku():
                 solutions.append(list(map(list, grid)))
                 return solutions
 
-        solutions = compute_solution(list(map(list, self.grid)), [], all_solutions)
+        solutions = compute_solution(list(map(list, self.grid)), [])
         self.solved_grid = solutions[0]
         return solutions
 
