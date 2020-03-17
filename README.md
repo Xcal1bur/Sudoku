@@ -1,6 +1,8 @@
 <h1 align="center">
-Sudoku
+  Sudoku
 </h1>
+
+![Python application](https://github.com/Xcal1bur/Sudoku/workflows/Python%20application/badge.svg)
 
 # Table of Contents
 - [Table of Contents](#table-of-contents)
