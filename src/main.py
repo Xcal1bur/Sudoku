@@ -79,6 +79,18 @@ hardest: list = [
     [0, 9, 0, 0, 0, 0, 4, 0, 0]
 ]
 
+class Counter(object):
+    """
+    Class for counting (recursive) function calls. 
+    """
+    def __init__(self, func):
+        self.func = func
+        self.counter = 0
+
+    def __call__(self, *args, **kwargs):
+        self.counter += 1
+        return self.func(*args, **kwargs)
+
 def print_grid(grid: list) -> str:
     """
     Transforms a list representing a Sudoku grid to a printable and readable
@@ -146,16 +158,19 @@ def string_to_grid(s: str) -> list:
 def main():
     import time
     start = time.time()
-    print(solve.quick_solve(sudoku2, [], False))
+    solve.quick_solve = Counter(solve.quick_solve)
+    print(print_grid(solve.quick_solve(sudoku1, [], False)[0]), solve.quick_solve.counter)
     end = time.time()
     print(end - start, "sec")
+
+    print(generate.generate_full_sudoku())
     
-    full = generate.generate_full_sudoku()
+    """full = generate.generate_full_sudoku()
     print(full)
     print(print_grid(full))
     gen = generate.generate_sudoku(full, 56)
     print(print_grid(gen))
-    print(print_grid(solve.quick_solve(gen, [])[0]))
+    print(print_grid(solve.quick_solve(gen, [])[0]))"""
 
 if __name__ == "__main__":
     main()
