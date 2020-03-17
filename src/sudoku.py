@@ -146,7 +146,7 @@ class Sudoku():
         Solves the sudoku grid by brute forcing and backtracking.
         """
         # Local function definition to keep solve solve call clean.
-        def compute_solution(solutions: list = []) -> list:
+        def compute_solution(grid: list, solutions: list = []) -> list:
             """
             Solves a given sudoku grid by brute forcing and backtracking.
 
@@ -169,7 +169,7 @@ class Sudoku():
                         for num in range(1, 10):
                             if self.possible(y, x, num, grid):
                                 grid[y][x] = num
-                                solutions = compute_solution(solutions)
+                                solutions = compute_solution(grid, solutions)
                                 # Reset cell to zero after backtrack
                                 grid[y][x] = 0
                         # Backtrack after no possible number was found.
@@ -178,7 +178,7 @@ class Sudoku():
             solutions.append(list(map(list, grid)))
             return solutions
 
-        self.solved_grid = compute_solution([])[0]
+        self.solved_grid = compute_solution(list(map(list, self.grid)), [])[0]
 
     def quick_solve(self, all_solutions: bool = True):
         """
@@ -192,8 +192,6 @@ class Sudoku():
             True for computing all possible solutions and False for only one
             solution.
         """
-        g = self.grid[:]
-
         def find_candidate(grid) -> tuple:
             """
             Determines the next candidate being the field with 
@@ -387,29 +385,3 @@ s = Sudoku([
     [0, 0, 0, 4, 1, 9, 0, 0, 5],
     [0, 0, 0, 0, 0, 0, 0, 7, 0]
 ])
-print(s.print_grid())
-s.quick_solve(False)
-print(s.print_solution())
-print(s.print_grid())
-
-s2 = Sudoku()
-s2.generate_full_sudoku()
-s2.generate_sudoku(56)
-print(s2.print_grid())
-
-
-s1 = Sudoku(".3.......;...195...;..8....6.;8...6....;4..8....1;....2....;.6....28.;...419..5;.......7.;")
-print(s1.print_grid())
-s2 = Sudoku([
-    [0, 9, 2, 0, 0, 0, 8, 7, 0],
-    [6, 0, 0, 4, 0, 7, 0, 0, 2],
-    [3, 0, 0, 5, 0, 2, 0, 0, 9],
-    [0, 7, 1, 0, 0, 0, 5, 2, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 4, 6, 0, 0, 0, 9, 8, 0],
-    [7, 0, 0, 1, 0, 5, 0, 0, 4],
-    [2, 0, 0, 8, 0, 3, 0, 0, 7],
-    [0, 5, 4, 0, 0, 0, 2, 3, 0]
-])
-print(s2.print_grid(), s2.solve(), "\n", s2.print_solution())
-
