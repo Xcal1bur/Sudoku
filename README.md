@@ -2,7 +2,7 @@
   Sudoku
 </h1>
 
-![Python application](https://github.com/Xcal1bur/Sudoku/workflows/Python%20application/badge.svg)
+![Linting & Tests](https://github.com/Xcal1bur/Sudoku/workflows/Linting%20&%20Tests/badge.svg)
 
 # Table of Contents
 - [Table of Contents](#table-of-contents)
