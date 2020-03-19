@@ -14,6 +14,6 @@ setup(
     long_description_content_type="text/markdown",
     url='https://github.com/Xcal1bur/Sudoku',
     license='GNU General Public License v3.0',
-    install_requires=["tkinter"],
+    install_requires=[],
     entry_points={'console_scripts': ['sudoku=src.main:main']}
 )
