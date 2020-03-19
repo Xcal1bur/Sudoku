@@ -55,13 +55,13 @@ Please feel free to report bugs or request features by opening an issue.
 # TODO
 
 * [X] Generating Sudokus. 
-* [ ] Implement different methods of solving.
+* [X] Implement different methods of solving.
   * [X] Improve current algorithm.
 * [X] **Write tests**.
-* [ ] Implement as terminal app with argparse
-* [ ] Implement GUI for solving and generating
-* [ ] Implement different versions of Sudoku like ["Alphabetical Sudoku"](https://en.wikipedia.org/wiki/Sudoku#Alphabetical_Sudoku).
-* [ ] Implement method to conveniently enter new riddles.
+* [ ] ~~Implement as terminal app with argparse~~
+* [X] Implement GUI for solving and generating
+* [ ] (Implement different versions of Sudoku like ["Alphabetical Sudoku"](https://en.wikipedia.org/wiki/Sudoku#Alphabetical_Sudoku).)
+* [X] Implement method to conveniently enter new riddles.
 
 # License
 

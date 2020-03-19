@@ -1,4 +1,3 @@
-import pytest
 from src.sudoku import Sudoku
 
 # 20 given fields. Currently not solvable within a reasonable time frame.
@@ -70,17 +69,15 @@ class Test_Sudoku():
         assert type(s_27.print_grid()) == str
         assert type(ambigous.print_grid()) == str
         assert len(s_20.print_grid()) == 330
-    
 
     def test_string_to_grid(self):
         test_s = Sudoku()
-        test_s.grid = test_s.string_to_grid(".........;..6..1.38;.2.9.3.1.;..8...42.;" \
-        "....4.69.;.54......;...53..6.;.1269.7.4;.6.......;")
-        assert type(test_s.string_to_grid(".........;..6..1.38;.2.9.3.1.;..8...42.;" \
-        "....4.69.;.54......;...53..6.;.1269.7.4;.6.......;")) == list
+        test_s.grid = test_s.string_to_grid(".........;..6..1.38;.2.9.3.1.;..8...42.;"
+                                            "....4.69.;.54......;...53..6.;.1269.7.4;.6.......;")
+        assert type(test_s.string_to_grid(".........;..6..1.38;.2.9.3.1.;..8...42.;"
+                                          "....4.69.;.54......;...53..6.;.1269.7.4;.6.......;")) == list
         for i in range(0, 9):
             assert test_s.grid[i] == s_27.grid[i]
-
 
     def test_possible(self):
         assert type(s_20.possible(0, 0, 1, s_20.grid)) == bool
@@ -92,13 +89,11 @@ class Test_Sudoku():
         assert pos == {1: True, 2: False, 3: False, 4: False, 5: True, 6: True, 7: True, 8: False, 9: False}
         assert pos_27 == {1: True, 2: True, 3: True, 4: True, 5: True, 6: True, 7: True, 8: True, 9: True}
 
-
     def test_validate(self):
-        assert s_0.validate() == True
-        assert s_false.validate() == False
-        assert s_20.validate() == True
-        assert s_27.validate() == True
-
+        assert s_0.validate() is True
+        assert s_false.validate() is False
+        assert s_20.validate() is True
+        assert s_27.validate() is True
 
     def test_solve(self):
         s_27.solve()
@@ -142,7 +137,6 @@ class Test_Sudoku():
             [6, 4, 2, 9, 7, 8, 5, 3, 1],
             [9, 7, 8, 5, 3, 1, 6, 4, 2]
         ]
-
 
     def test_quick_solve(self):
         s_20.solved_grid = s_20.empty_grid
@@ -189,20 +183,18 @@ class Test_Sudoku():
         ambigous.quick_solve()
         assert len(ambigous.solved_grid) == 9
 
-
     def test_generate_full_sudoku(self):
         s_gen_1 = Sudoku()
         s_gen_1.generate_full_sudoku()
-        assert s_gen_1.validate() == True
+        assert s_gen_1.validate() is True
 
         s_gen_2 = Sudoku()
         s_gen_2.generate_full_sudoku()
-        assert s_gen_2.validate() == True
+        assert s_gen_2.validate() is True
 
         s_gen_3 = Sudoku()
         s_gen_3.generate_full_sudoku()
-        assert s_gen_3.validate() == True
-
+        assert s_gen_3.validate() is True
 
     def test_generate_sudoku(self):
         # Check whether the correct amount of empty cells was removed
@@ -227,4 +219,4 @@ class Test_Sudoku():
         assert generated_solution == s_gen_1.solved_grid
 
         # Test whether the generated Sudoku is valid
-        assert s_gen_1.validate() == True
+        assert s_gen_1.validate() is True

@@ -10,10 +10,11 @@ class Sudoku():
 
     def __init__(self, p_grid=empty_grid):
         if type(p_grid) == list:
-            self.grid = p_grid
+            self.grid = list(map(list, p_grid))
+            self.start_grid = list(map(list, p_grid))
         else:
-            self.grid = self.string_to_grid(p_grid)
-        self.solved_grid = self.empty_grid
+            self.grid = self.start_grid = self.string_to_grid(p_grid)
+        self.solved_grid = list(map(list, self.empty_grid))
 
     def __printable(self, grid: list) -> str:
         """
@@ -80,6 +81,31 @@ class Sudoku():
             row.append(int(char))
         return sudoku
 
+    def grid_to_string(self, grid: list) -> str:
+        """
+        Converts a list representing a Sudoku to a string.
+
+        Parameters
+        ----------
+        grid: list
+            list representing 9x9 Sudoku.
+
+        Returns
+        -------
+        str
+            String representing a 9x9 Sudoku
+        """
+        grid_str = ""
+        for y in range(9):
+            for x in range(9):
+                if grid[y][x] == 0:
+                    grid_str += "."
+                else:
+                    grid_str += str(grid[y][x])
+                if x == 8:
+                    grid_str += ";"
+        return grid_str
+
     def possible(self, y, x, num, grid) -> bool:
         """
         Checks whether a number is a possible anwser for a field by checking
@@ -143,7 +169,7 @@ class Sudoku():
                         return False
         return True
 
-    def solve(self, all_solutions: bool=True):
+    def solve(self, all_solutions: bool = True):
         """
         Solves the sudoku grid by brute forcing and backtracking.
         """
@@ -316,7 +342,9 @@ class Sudoku():
                         return
             return grid
 
-        self.grid = self.solved_grid = full_sudoku(list(map(list, self.grid)))
+        gen = full_sudoku(list(map(list, self.empty_grid)))
+        self.grid = list(map(list, gen))
+        self.solved_grid = list(map(list, gen))
 
     def generate_sudoku(self, empty_cells: int):
         """
@@ -348,7 +376,7 @@ class Sudoku():
         def generate(n: int) -> list:
             non_empty: list = filled_fields()
             while True:
-                print(n, len(non_empty))
+                # print(n, len(non_empty))
                 # Sudoku has to have a unique solution and there have to be
                 # filled fields avialable otherwise backtrack.
                 if len(self.quick_solve(True)) == 1 and len(non_empty) != 0:
@@ -375,5 +403,7 @@ class Sudoku():
                         return self.grid
                 else:
                     return
-        # Set generated Sudoku grid as new grid.
-        self.grid = generate(empty_cells)
+        # Set generated Sudoku grid as new grid and starting grid.
+        gen = generate(empty_cells)
+        self.grid = list(map(list, gen))
+        self.start_grid = list(map(list, gen))
