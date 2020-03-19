@@ -121,21 +121,29 @@ class Gui(tk.Frame):
         """
         Draws a 9x9 grid divided by lines into 3x3 squares
         """
-
         for i in range(10):
-            color = "black" if i % 3 == 0 else "light grey"
+            if i % 3 == 0:
+                color = "black"
+            else:
+                color = "light grey"
 
             x0 = self.margin + i * self.side
             y0 = self.margin
             x1 = self.margin + i * self.side
             y1 = self.height - self.margin
-            self.canvas.create_line(x0, y0, x1, y1, fill=color)
+            if i % 3 != 0:
+                self.canvas.create_line(x0, y0, x1, y1, fill=color, dash=(4, 2))
+            else:
+                self.canvas.create_line(x0, y0, x1, y1, fill=color)
 
             x0 = self.margin
             y0 = self.margin + i * self.side
             x1 = self.width - self.margin
             y1 = self.margin + i * self.side
-            self.canvas.create_line(x0, y0, x1, y1, fill=color)
+            if i % 3 != 0:
+                self.canvas.create_line(x0, y0, x1, y1, fill=color, dash=(4, 2))
+            else:
+                self.canvas.create_line(x0, y0, x1, y1, fill=color)
 
     def __draw_puzzle(self):
         """
