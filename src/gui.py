@@ -85,7 +85,10 @@ class Gui(tk.Frame):
         Sets the current grid as the starting grid.
         """
         if self.board.validate():
-            self.board.start_grid = list(map(list, self.board.grid))
+            if self.board.start_grid != self.board.grid:
+                self.board.start_grid = list(map(list, self.board.grid))
+            else:
+                self.board.start_grid = self.board.empty_grid
         else:
             tk.messagebox.showerror("Incorrect", "The Sudoku is not valid and cannot be set!", )
         self.__draw_puzzle()
