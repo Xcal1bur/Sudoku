@@ -57,6 +57,7 @@ class Gui(tk.Frame):
         # Bind left mouse click and keypress to functions
         self.canvas.bind("<Button-1>", self.__cell_clicked)
         self.canvas.bind("<Key>", self.__key_pressed)
+        self.canvas.bind("<Return>", (lambda event: self.__set_board()))
 
     def __load_board(self):
         """
