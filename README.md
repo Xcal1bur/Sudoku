@@ -16,9 +16,6 @@
 - [License](#license)
 
 # About
-<p align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Sudoku_problem_1_%26_candidate.svg/1024px-Sudoku_problem_1_%26_candidate.svg.png" width="325">
-</p>
 
 > "Sudoku is a logic-based, combinatorial number-placement puzzle. The objective is to fill a 9×9 grid with digits so that each column, each row, and each of the nine 3×3 subgrids that compose the grid (also called "boxes", "blocks", or "regions") contain all of the digits from 1 to 9. The puzzle setter provides a partially completed grid, which for a well-posed puzzle has a single solution." (https://en.wikipedia.org/wiki/Sudoku, 2020.03.02 : 18:52)
 
@@ -59,9 +56,9 @@ The program aims to solve a given sudoku riddle by brute force and backtracking.
 So far both algorithms have proven to be somewhat fast for Sudokus with ~26 given cells however the second algorithm holds up much better for less given cells and can solve riddles which the first one cannot within a reasonable timeframe.
 
 ## Generating
-Generating a Sudoku requires two steps (at least my approach). First generate a random fully solved Sudoku and secondly set randomly chosen cells to empty while making sure the Sudoku only has one unique solution (which can be checked with one of the solving algorithms).
+Generating a Sudoku requires two steps (at least my approach). First generate a random fully solved Sudoku and secondly clear randomly chosen cells while making sure that the Sudoku only has one unique solution (which can be checked with one of the solving algorithms).
 
-Since this a backtracking approach and therefor has to validate the sudoku at every recursive call, generating Sudokus takes time increasing with the amount of empty cells.
+Since this a backtracking approach and therefore has to validate the Sudoku at every recursive call generating Sudokus takes longer than simply solving one increasing with the amount of empty cells. 
 
 # Installation
 1. Clone this repository with `git clone https://github.com/Xcal1bur/Sudoku.git`.
@@ -78,7 +75,7 @@ Please feel free to report bugs or request features by opening an issue.
 * [X] **Write tests**.
 * [ ] ~~Implement as terminal app with argparse~~
 * [X] Implement GUI for solving and generating
-* [ ] (Implement different versions of Sudoku like ["Alphabetical Sudoku"](https://en.wikipedia.org/wiki/Sudoku#Alphabetical_Sudoku).)
+* [ ] ~~(Implement different versions of Sudoku like ["Alphabetical Sudoku"](https://en.wikipedia.org/wiki/Sudoku#Alphabetical_Sudoku).)~~
 * [X] Implement method to conveniently enter new riddles.
 
 # License
